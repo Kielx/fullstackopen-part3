@@ -10,17 +10,18 @@ app.get("/api/persons", (req, res) => {
   res.json(users);
 });
 
-app.get("/api/persons/:id", (req, res) => {
-  let foundUser = users.find((user) => user.id === req.params.id);
-  if (!foundUser) {
+app.delete("/api/persons/:id", (req, res) => {
+  let foundUserIndex = users.findIndex((user) => user.id === req.params.id);
+  console.log(foundUserIndex);
+  if (foundUserIndex === -1) {
     res.status("404").send("User not found");
   } else {
-    users.delete(foundUser);
-    res.status("200").json(foundUser);
+    let deltedUser = users.splice(foundUserIndex, 1);
+    res.status("200").json(deltedUser);
   }
 });
 
-app.delete("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res) => {
   let foundUser = users.find((user) => user.id === req.params.id);
   if (!foundUser) {
     res.status("404").send("User not found");
