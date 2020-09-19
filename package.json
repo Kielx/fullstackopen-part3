@@ -1,0 +1,28 @@
+{
+  "name": "fullstackopen-part3",
+  "version": "1.0.0",
+  "description": "Part3 of Fullstackopen course",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kielx/fullstackopen-part3.git"
+  },
+  "author": "Kielx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kielx/fullstackopen-part3/issues"
+  },
+  "homepage": "https://github.com/Kielx/fullstackopen-part3#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
