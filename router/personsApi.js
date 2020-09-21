@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const { v4: uuidv4 } = require("uuid");
+
 const { checkUsername, validate } = require("../validators");
 
 router
@@ -9,7 +11,10 @@ router
     res.json(req.app.locals.users);
   })
   .post([checkUsername], validate, (req, res) => {
-    res.status("200").send(req.body);
+    let user = req.body;
+    user.id = uuidv4();
+    req.app.locals.users.push(user);
+    res.status("200").send(user);
   });
 
 router

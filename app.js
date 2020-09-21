@@ -15,8 +15,9 @@ app.use(bodyParser.json());
 
 //router
 const personsApiRouter = require("./router/personsApi");
-const commonRouter = require("./router/commonRouter");
 app.use("/api/persons", personsApiRouter);
+
+const commonRouter = require("./router/commonRouter");
 app.use("/", commonRouter);
 
 module.exports = app;
