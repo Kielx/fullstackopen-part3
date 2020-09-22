@@ -15,19 +15,7 @@ app.use(bodyParser.json());
 
 //logger
 const morgan = require("morgan");
-
-morgan.token("json", function (req, res) {
-  return JSON.stringify({
-    url: req.url,
-    method: req.method,
-    httpVersion: req.httpVersion,
-    body: req.body,
-  });
-});
-
-app.use(
-  morgan(":json :method :url :status :res[content-length]- :response-time ms")
-);
+app.use(morgan("dev"));
 
 //router
 const personsApiRouter = require("./router/personsApi");
