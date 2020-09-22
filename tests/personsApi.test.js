@@ -77,3 +77,12 @@ it("deletes a single person", async (done) => {
   expect(response.body.hasOwnProperty("phone")).toBe(true);
   done();
 });
+
+it("returns 404 when user is not found", async (done) => {
+  const response = await request.get("/api/persons/abc-123-def-asf4asdf");
+  expect(response.status).toBe(404);
+  expect(response.headers["content-type"]).toMatch(/application\/json/);
+  expect(typeof response.body).toBe("object");
+  expect(JSON.parse(response.text).error).toBe("User not found");
+  done();
+});
