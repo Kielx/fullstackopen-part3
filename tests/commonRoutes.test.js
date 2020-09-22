@@ -9,3 +9,12 @@ it("returns api info", async (done) => {
   expect(response.text).toMatch(/Phonebook has info/);
   done();
 });
+
+it("returns 404 when no matching url is found", async (done) => {
+  const response = await request.get("/dsaafdsfa/asfdafd/abc-123-def-asf4asdf");
+  expect(response.status).toBe(404);
+  expect(response.headers["content-type"]).toMatch(/application\/json/);
+  expect(typeof response.body).toBe("object");
+  expect(JSON.parse(response.text).error).toBe("Not found");
+  done();
+});

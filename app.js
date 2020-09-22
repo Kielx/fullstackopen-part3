@@ -23,4 +23,9 @@ app.use("/api/persons", personsApiRouter);
 
 const commonRouter = require("./router/commonRouter");
 app.use("/", commonRouter);
+
+app.get("*", function (req, res) {
+  res.status(404).send({ error: "Not found" });
+});
+
 module.exports = app;
