@@ -8,6 +8,27 @@ module.exports = {
     .escape()
     .withMessage("Username provided is invalid"),
 
+  checkPhone: check("phone")
+    .trim()
+    .not()
+    .isEmpty()
+    .escape()
+    .withMessage("Phone number provided is invalid"),
+
+  checkIfUserExists: (req, res, next) => {
+    let checkUser = false;
+    req.app.locals.users.forEach((user) => {
+      if (user.name === req.body.name) {
+        checkUser = true;
+      }
+    });
+    if (checkUser) {
+      res.status(422).send("Username already exists");
+    } else {
+      next();
+    }
+  },
+
   validate: (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {

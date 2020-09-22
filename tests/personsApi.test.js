@@ -47,6 +47,23 @@ it("throws errors with invalid input", async (done) => {
   expect(response.headers["content-type"]).toMatch(/application\/json/);
   expect(typeof response.body).toBe("object");
   expect(response.body.hasOwnProperty("errors")).toBe(true);
+  expect(response.body.errors).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ name: "Username provided is invalid" }),
+      expect.objectContaining({ phone: "Phone number provided is invalid" }),
+    ])
+  );
+  done();
+});
+
+it("throws returns 422 when username already exists", async (done) => {
+  const response = await request.post("/api/persons/").send({
+    name: "John Johnes",
+    phone: "123 345 567",
+  });
+  expect(response.status).toBe(422);
+  expect(response.headers["content-type"]).toMatch(/text\/html/);
+  expect(response.text).toMatch(/Username already exists/);
   done();
 });
 
