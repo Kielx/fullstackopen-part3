@@ -29,6 +29,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "fast-check": "^2.3.0",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"

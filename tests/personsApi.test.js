@@ -1,6 +1,7 @@
 const app = require("../app");
 const supertest = require("supertest");
 const request = supertest(app);
+const fc = require("fast-check");
 
 const basicCheck = (response) => {
   expect(response.status).toBe(200);
@@ -86,3 +87,21 @@ it("returns 404 when user is not found", async (done) => {
   expect(JSON.parse(response.text).error).toBe("User not found");
   done();
 });
+
+it("/api/persons does not return 500 (with fast-check)", async () =>
+  await fc.assert(
+    fc.asyncProperty(
+      fc.record(
+        {
+          name: fc.string(),
+          phone: fc.string(),
+        },
+        { withDeletedKeys: true }
+      ),
+      async (payload) => {
+        const response = await request.post("/api/persons/").send(payload);
+        expect(response.status).not.toBe(500);
+      }
+    ),
+    { verbose: true, timeout: 100 }
+  ));
