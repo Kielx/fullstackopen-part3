@@ -21,6 +21,8 @@ app.use(bodyParser.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+app.use(express.static("build"));
+
 //router
 const personsApiRouter = require("./router/personsApi");
 app.use("/api/persons", personsApiRouter);
