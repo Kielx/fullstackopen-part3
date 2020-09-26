@@ -1,5 +1,5 @@
 //local config
-require("dotenv").config({ path: "./conf.env" });
+require("dotenv").config();
 
 //express server
 const express = require("express");
@@ -22,6 +22,15 @@ const morgan = require("morgan");
 app.use(morgan("dev"));
 
 app.use(express.static("build"));
+
+//mongoose
+
+const Person = require("./models/Person");
+
+Person.create({ name: "Kielx", phone: 123456789 }, function (err, small) {
+  if (err) return handleError(err);
+  console.log("saved");
+});
 
 //router
 const personsApiRouter = require("./router/personsApi");
