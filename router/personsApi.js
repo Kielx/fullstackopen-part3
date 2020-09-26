@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const personController = require("../controllers/personController");
 
 const { v4: uuidv4 } = require("uuid");
 
@@ -12,8 +13,8 @@ const {
 
 router
   .route("/")
-  .get((req, res) => {
-    res.json(req.app.locals.users);
+  .get(async (req, res) => {
+    res.json(await personController.getPersons());
   })
   .post(
     [checkUsername, checkPhone],

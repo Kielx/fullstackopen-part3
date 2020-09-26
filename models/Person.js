@@ -12,7 +12,7 @@ db.once("open", function () {
 
 const personSchema = new mongoose.Schema({
   name: String, // String is shorthand for {type: String}
-  phone: Number,
+  phone: String,
 });
 
 const Person = mongoose.model("Person", personSchema);
