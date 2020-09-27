@@ -1,5 +1,5 @@
 //local config
-require("dotenv").config({ path: "./conf.env" });
+require("dotenv").config();
 
 //express server
 const express = require("express");

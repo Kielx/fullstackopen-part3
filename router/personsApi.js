@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
-const { v4: uuidv4 } = require("uuid");
+const personController = require("../controllers/personController");
+const Person = require("../models/Person");
 
 const {
   checkUsername,
@@ -12,33 +12,53 @@ const {
 
 router
   .route("/")
-  .get((req, res) => {
-    res.json(req.app.locals.users);
+  .get(async (req, res) => {
+    try {
+      const response = await personController.getPersons();
+      res.json(response);
+    } catch (err) {
+      res.status(404).send("Cannot fetch users!");
+    }
   })
   .post(
     [checkUsername, checkPhone],
     validate,
     checkIfUserExists,
-    (req, res) => {
-      let user = req.body;
-      user.id = uuidv4();
-      req.app.locals.users.push(user);
-      res.status("200").json(user);
+    async (req, res) => {
+      let created = await personController.createPerson(
+        req.body.name,
+        req.body.phone
+      );
+      if (created instanceof Error) {
+        res.status("400").send("Error creating user");
+      } else {
+        created = created.toJSON();
+        delete created["__v"];
+        res.status("200").json(created);
+      }
     }
   );
 
 router
   .route("/:id")
-  .get((req, res) => {
-    let foundUser = req.app.locals.users.find(
-      (user) => user.id === req.params.id
-    );
-    if (!foundUser) {
+  .get(async (req, res) => {
+    try {
+      let foundUser = await Person.findById(req.params.id);
+      res.json(foundUser);
+    } catch (e) {
       res.status("404").json({ error: "User not found" });
-    } else res.json(foundUser);
+    }
   })
-  .delete((req, res) => {
-    let foundUserIndex = req.app.locals.users.findIndex(
+  .delete(async (req, res) => {
+    try {
+      let foundUser = await Person.findByIdAndRemove(req.params.id);
+      foundUser = foundUser.toJSON();
+      delete foundUser["__v"];
+      res.status("200").json(foundUser);
+    } catch (e) {
+      res.status("404").json({ error: "User not found" });
+    }
+    /*     let foundUserIndex = req.app.locals.users.findIndex(
       (user) => user.id === req.params.id
     );
     if (foundUserIndex === -1) {
@@ -46,7 +66,7 @@ router
     } else {
       let deletedUser = req.app.locals.users.splice(foundUserIndex, 1)[0];
       res.status("200").json(deletedUser);
-    }
+    } */
   });
 
 module.exports = router;
