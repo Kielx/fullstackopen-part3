@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const personController = require("../controllers/personController");
 
-const { v4: uuidv4 } = require("uuid");
-
 const {
   checkUsername,
   validate,
@@ -14,17 +12,29 @@ const {
 router
   .route("/")
   .get(async (req, res) => {
-    res.json(await personController.getPersons());
+    try {
+      const response = await personController.getPersons();
+      res.json(response);
+    } catch (err) {
+      res.status(404).send("Cannot fetch users!");
+    }
   })
   .post(
     [checkUsername, checkPhone],
     validate,
     checkIfUserExists,
-    (req, res) => {
-      let user = req.body;
-      user.id = uuidv4();
-      req.app.locals.users.push(user);
-      res.status("200").json(user);
+    async (req, res) => {
+      let created = await personController.createPerson(
+        req.body.name,
+        req.body.phone
+      );
+      if (created instanceof Error) {
+        res.status("400").send("Error creating user");
+      } else {
+        created = created.toJSON();
+        delete created["__v"];
+        res.status("200").json(created);
+      }
     }
   );
 
