@@ -49,8 +49,16 @@ router
       res.status("404").json({ error: "User not found" });
     }
   })
-  .delete((req, res) => {
-    let foundUserIndex = req.app.locals.users.findIndex(
+  .delete(async (req, res) => {
+    try {
+      let foundUser = await Person.findByIdAndRemove(req.params.id);
+      foundUser = foundUser.toJSON();
+      delete foundUser["__v"];
+      res.status("200").json(foundUser);
+    } catch (e) {
+      res.status("404").json({ error: "User not found" });
+    }
+    /*     let foundUserIndex = req.app.locals.users.findIndex(
       (user) => user.id === req.params.id
     );
     if (foundUserIndex === -1) {
@@ -58,7 +66,7 @@ router
     } else {
       let deletedUser = req.app.locals.users.splice(foundUserIndex, 1)[0];
       res.status("200").json(deletedUser);
-    }
+    } */
   });
 
 module.exports = router;

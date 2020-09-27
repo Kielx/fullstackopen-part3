@@ -4,9 +4,10 @@ mongoose
   .connect(process.env.MONGODB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
   })
   .catch((err) => {
-    console.log("dupa", err);
+    console.log("Error while connecting", err);
   });
 
 const db = mongoose.connection;
