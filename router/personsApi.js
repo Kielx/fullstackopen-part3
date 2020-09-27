@@ -61,9 +61,13 @@ router
   })
   .patch(async (req, res) => {
     try {
-      let modifiedUser = await Person.findByIdAndUpdate(req.params.id, {
-        phone: req.body.phone,
-      });
+      let modifiedUser = await Person.findByIdAndUpdate(
+        req.params.id,
+        {
+          phone: req.body.phone,
+        },
+        { new: true }
+      );
       res.status("200").json(modifiedUser);
     } catch (e) {
       res.status("400").json({ error: "Failed to modify user" });
