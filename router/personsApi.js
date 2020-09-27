@@ -58,15 +58,16 @@ router
     } catch (e) {
       res.status("404").json({ error: "User not found" });
     }
-    /*     let foundUserIndex = req.app.locals.users.findIndex(
-      (user) => user.id === req.params.id
-    );
-    if (foundUserIndex === -1) {
-      res.status("404").json({ error: "User not found" });
-    } else {
-      let deletedUser = req.app.locals.users.splice(foundUserIndex, 1)[0];
-      res.status("200").json(deletedUser);
-    } */
+  })
+  .patch(async (req, res) => {
+    try {
+      let modifiedUser = await Person.findByIdAndUpdate(req.params.id, {
+        phone: req.body.phone,
+      });
+      res.status("200").json(modifiedUser);
+    } catch (e) {
+      res.status("400").json({ error: "Failed to modify user" });
+    }
   });
 
 module.exports = router;
