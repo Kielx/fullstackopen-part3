@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const personController = require("../controllers/personController");
+const Person = require("../models/Person");
 
 const {
   checkUsername,
@@ -40,13 +41,13 @@ router
 
 router
   .route("/:id")
-  .get((req, res) => {
-    let foundUser = req.app.locals.users.find(
-      (user) => user.id === req.params.id
-    );
-    if (!foundUser) {
+  .get(async (req, res) => {
+    try {
+      let foundUser = await Person.findById(req.params.id);
+      res.json(foundUser);
+    } catch (e) {
       res.status("404").json({ error: "User not found" });
-    } else res.json(foundUser);
+    }
   })
   .delete((req, res) => {
     let foundUserIndex = req.app.locals.users.findIndex(
