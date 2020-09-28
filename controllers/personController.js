@@ -10,8 +10,12 @@ module.exports = {
     }
   },
 
-  getPersons: () => {
-    const PersonsList = Person.find({});
-    return PersonsList;
+  getPersons: async (req, res, next) => {
+    try {
+      const PersonsList = await abc.find({});
+      res.status(200).json(PersonsList);
+    } catch (error) {
+      return next(error);
+    }
   },
 };

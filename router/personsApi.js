@@ -12,14 +12,7 @@ const {
 
 router
   .route("/")
-  .get(async (req, res) => {
-    try {
-      const response = await personController.getPersons();
-      res.json(response);
-    } catch (err) {
-      res.status(404).send("Cannot fetch users!");
-    }
-  })
+  .get(personController.getPersons)
   .post(
     [checkUsername, checkPhone],
     validate,
