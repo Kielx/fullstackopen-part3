@@ -1,18 +1,23 @@
 const Person = require("../models/Person");
 
 module.exports = {
-  createPerson: async (name, phone) => {
+  createPerson: async (req, res, next) => {
     try {
-      return await Person.create({ name: name, phone: phone });
-    } catch (e) {
-      console.log("caught");
-      return e;
+      let created = await Person.create({
+        name: req.body.name,
+        phone: req.body.phone,
+      });
+      created = created.toJSON();
+      delete created["__v"];
+      res.status("200").json(created);
+    } catch (error) {
+      next(error);
     }
   },
 
   getPersons: async (req, res, next) => {
     try {
-      const PersonsList = await abc.find({});
+      const PersonsList = await Person.find({});
       res.status(200).json(PersonsList);
     } catch (error) {
       return next(error);

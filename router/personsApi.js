@@ -17,19 +17,7 @@ router
     [checkUsername, checkPhone],
     validate,
     checkIfUserExists,
-    async (req, res) => {
-      try {
-        let created = await personController.createPerson(
-          req.body.name,
-          req.body.phone
-        );
-        created = created.toJSON();
-        delete created["__v"];
-        res.status("200").json(created);
-      } catch (error) {
-        next(error);
-      }
-    }
+    personController.createPerson
   );
 
 router
