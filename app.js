@@ -29,7 +29,7 @@ const personsApiRouter = require("./router/personsApi");
 app.use("/api/persons", personsApiRouter);
 
 const commonRouter = require("./router/commonRouter");
-const { errorHandler } = require("./errorHandlers");
+
 app.use("/", commonRouter);
 
 app.get("*", function (req, res) {
