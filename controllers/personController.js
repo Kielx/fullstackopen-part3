@@ -19,7 +19,14 @@ module.exports = {
     try {
       const PersonsList = await Person.find({});
       res.status(200).json(PersonsList);
-    } catch (error) {
+    } catch (error) {}
+  },
+
+  getSinglePerson: async (req, res) => {
+    try {
+      const foundUser = await Person.findById(req.params.id);
+      res.json(foundUser);
+    } catch (e) {
       return next(error);
     }
   },

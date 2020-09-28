@@ -22,14 +22,7 @@ router
 
 router
   .route("/:id")
-  .get(async (req, res) => {
-    try {
-      let foundUser = await Person.findById(req.params.id);
-      res.json(foundUser);
-    } catch (e) {
-      res.status("404").json({ error: "User not found" });
-    }
-  })
+  .get(personController.getSinglePerson)
   .delete(async (req, res) => {
     try {
       let foundUser = await Person.findByIdAndRemove(req.params.id);
