@@ -1,4 +1,7 @@
-const { check, validationResult } = require("express-validator");
+const e = require("express");
+const { check, body, validationResult } = require("express-validator");
+const errorHandlers = require("./errorHandlers");
+const Person = require("./models/Person");
 
 module.exports = {
   checkUsername: check("name")
@@ -15,17 +18,15 @@ module.exports = {
     .escape()
     .withMessage("Phone number provided is invalid"),
 
-  checkIfUserExists: (req, res, next) => {
-    let checkUser = false;
-    req.app.locals.users.forEach((user) => {
-      if (user.name === req.body.name) {
-        checkUser = true;
+  checkIfUserExists: async (req, res, next) => {
+    try {
+      const user = await Person.find({ name: req.body.name });
+      if (user.length > 0) {
+        throw new errorHandlers.apiError("Username already exists", user);
       }
-    });
-    if (checkUser) {
-      res.status(422).send("Username already exists");
-    } else {
       next();
+    } catch (e) {
+      next(e);
     }
   },
 
@@ -36,9 +37,10 @@ module.exports = {
     }
     const extractedErrors = [];
     errors.array().map((err) => extractedErrors.push({ [err.param]: err.msg }));
-
-    return res.status(422).json({
+    throw new errorHandlers.apiError("Validation failed", extractedErrors);
+    //throw extractedErrors;
+    /*     return res.status(422).json({
       errors: extractedErrors,
-    });
+    }); */
   },
 };

@@ -25,16 +25,16 @@ router
     validate,
     checkIfUserExists,
     async (req, res) => {
-      let created = await personController.createPerson(
-        req.body.name,
-        req.body.phone
-      );
-      if (created instanceof Error) {
-        res.status("400").send("Error creating user");
-      } else {
+      try {
+        let created = await personController.createPerson(
+          req.body.name,
+          req.body.phone
+        );
         created = created.toJSON();
         delete created["__v"];
         res.status("200").json(created);
+      } catch (error) {
+        next(error);
       }
     }
   );
@@ -70,7 +70,8 @@ router
       );
       res.status("200").json(modifiedUser);
     } catch (e) {
-      res.status("400").json({ error: "Failed to modify user" });
+      return next(e);
+      //res.status("400").json({ error: "Failed to modify user" });
     }
   });
 

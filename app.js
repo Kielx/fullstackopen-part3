@@ -1,5 +1,6 @@
 //local config
 require("dotenv").config();
+const errorHandlers = require("./errorHandlers");
 
 //express server
 const express = require("express");
@@ -28,10 +29,13 @@ const personsApiRouter = require("./router/personsApi");
 app.use("/api/persons", personsApiRouter);
 
 const commonRouter = require("./router/commonRouter");
+const { errorHandler } = require("./errorHandlers");
 app.use("/", commonRouter);
 
 app.get("*", function (req, res) {
   res.status(404).send({ error: "Not found" });
 });
+
+app.use(errorHandlers.errorHandler);
 
 module.exports = app;
