@@ -30,7 +30,8 @@ module.exports = {
       const foundUser = await Person.findById(req.params.id);
       res.json(foundUser);
     } catch (e) {
-      return next(e);
+      res.status(404);
+      next();
     }
   },
 
@@ -38,7 +39,8 @@ module.exports = {
     try {
       let foundUser = await Person.findByIdAndRemove(req.params.id);
       if (!foundUser) {
-        throw new apiError("User not found");
+        res.status(404);
+        next();
       }
       foundUser = foundUser.toJSON();
       delete foundUser["__v"];

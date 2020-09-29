@@ -1,6 +1,11 @@
 const app = require("../app");
 const supertest = require("supertest");
 const request = supertest(app);
+const mongoose = require("mongoose");
+
+afterAll(() => {
+  mongoose.connection.close();
+});
 
 it("returns api info", async (done) => {
   const response = await request.get("/info");
