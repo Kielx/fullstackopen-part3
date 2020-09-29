@@ -10,9 +10,6 @@ const app = express();
 const cors = require("cors");
 app.use(cors());
 
-//users
-app.locals.users = require("./persons.json");
-
 //bodyparser
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -22,6 +19,7 @@ app.use(bodyParser.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+//static folder
 app.use(express.static("build"));
 
 //router
@@ -29,13 +27,13 @@ const personsApiRouter = require("./router/personsApi");
 app.use("/api/persons", personsApiRouter);
 
 const commonRouter = require("./router/commonRouter");
-
 app.use("/", commonRouter);
 
 app.get("*", function (req, res) {
   res.status(404).send({ error: "Not found" });
 });
 
+//errorhandler
 app.use(errorHandlers.errorHandler);
 
 module.exports = app;

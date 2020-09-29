@@ -1,3 +1,4 @@
+const { apiError } = require("../errorHandlers");
 const Person = require("../models/Person");
 
 module.exports = {
@@ -10,8 +11,8 @@ module.exports = {
       created = created.toJSON();
       delete created["__v"];
       res.status("200").json(created);
-    } catch (error) {
-      next(error);
+    } catch (e) {
+      next(e);
     }
   },
 
@@ -19,15 +20,46 @@ module.exports = {
     try {
       const PersonsList = await Person.find({});
       res.status(200).json(PersonsList);
-    } catch (error) {}
+    } catch (e) {
+      return next(e);
+    }
   },
 
-  getSinglePerson: async (req, res) => {
+  getSinglePerson: async (req, res, next) => {
     try {
       const foundUser = await Person.findById(req.params.id);
       res.json(foundUser);
     } catch (e) {
-      return next(error);
+      return next(e);
+    }
+  },
+
+  deleteSinglePerson: async (req, res, next) => {
+    try {
+      let foundUser = await Person.findByIdAndRemove(req.params.id);
+      if (!foundUser) {
+        throw new apiError("User not found");
+      }
+      foundUser = foundUser.toJSON();
+      delete foundUser["__v"];
+      res.status("200").json(foundUser);
+    } catch (e) {
+      return next(e);
+    }
+  },
+
+  patchSinglePerson: async (req, res, next) => {
+    try {
+      let modifiedUser = await Person.findByIdAndUpdate(
+        req.params.id,
+        {
+          phone: req.body.phone,
+        },
+        { new: true }
+      );
+      res.status("200").json(modifiedUser);
+    } catch (e) {
+      return next(e);
     }
   },
 };
