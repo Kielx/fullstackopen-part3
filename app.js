@@ -19,6 +19,9 @@ app.use(bodyParser.json());
 const morgan = require("morgan");
 app.use(morgan("dev"));
 
+//mongoDB
+const mongo = require("./mongo");
+
 //static folder
 app.use(express.static("build"));
 
