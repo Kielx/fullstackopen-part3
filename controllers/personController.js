@@ -1,4 +1,3 @@
-const { apiError } = require("../errorHandlers");
 const Person = require("../models/Person");
 
 module.exports = {
@@ -30,7 +29,9 @@ module.exports = {
       const foundUser = await Person.findById(req.params.id);
       res.json(foundUser);
     } catch (e) {
-      res.status(404);
+      res
+        .status(404)
+        .json({ errorMessage: "User with selected id does not exist" });
       next();
     }
   },
@@ -38,13 +39,16 @@ module.exports = {
   deleteSinglePerson: async (req, res, next) => {
     try {
       let foundUser = await Person.findByIdAndRemove(req.params.id);
-      if (!foundUser) {
-        res.status(404);
+      if (foundUser === null) {
+        res
+          .status(404)
+          .json({ errorMessage: "User with selected id does not exist" });
         next();
+      } else {
+        foundUser = foundUser.toJSON();
+        delete foundUser["__v"];
+        res.status("200").json(foundUser);
       }
-      foundUser = foundUser.toJSON();
-      delete foundUser["__v"];
-      res.status("200").json(foundUser);
     } catch (e) {
       return next(e);
     }

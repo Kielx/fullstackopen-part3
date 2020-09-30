@@ -23,6 +23,6 @@ router
   .route("/:id")
   .get(personController.getSinglePerson)
   .delete(personController.deleteSinglePerson)
-  .patch(personController.patchSinglePerson);
+  .patch(checkPhone, validate, personController.patchSinglePerson);
 
 module.exports = router;

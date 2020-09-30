@@ -8,14 +8,20 @@ module.exports = {
     .not()
     .isEmpty()
     .escape()
-    .withMessage("Username provided is invalid"),
+    .isLength({ min: 3 })
+    .withMessage(
+      "Username provided is invalid - it must be at least 3 characters long"
+    ),
 
   checkPhone: check("phone")
     .trim()
     .not()
     .isEmpty()
     .escape()
-    .withMessage("Phone number provided is invalid"),
+    .isLength({ min: 8 })
+    .withMessage(
+      "Phone number provided is invalid - it must be at least 8 digits long"
+    ),
 
   checkIfUserExists: async (req, res, next) => {
     try {
