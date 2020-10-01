@@ -2,7 +2,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/Kielx/fullstackopen-part3">
     <img src="build/logo192.png" alt="Logo" width="80" height="80">
     <img src="https://simpleicons.org/icons/node-dot-js.svg" alt="Logo" width="80" height="80">
     
@@ -131,7 +131,6 @@ Contributions are what make the open source community such an amazing place to b
 
 Distributed under the MIT License. See [LICENSE](https://github.com/Kielx/fullstackopen-part3/blob/master/LICENSE.txt) for more information.
 
-https://github.com/Kielx/fullstackopen-part3
 <!-- CONTACT -->
 ## Contact
 
