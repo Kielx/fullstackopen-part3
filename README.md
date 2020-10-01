@@ -129,7 +129,7 @@ Contributions are what make the open source community such an amazing place to b
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/Kielx/fullstackopen-part3/blob/master/LICENSE.txt) for more information.
 
 https://github.com/Kielx/fullstackopen-part3
 <!-- CONTACT -->
