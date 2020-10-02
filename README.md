@@ -3,15 +3,14 @@
 <br />
 <p align="center">
   <a href="https://github.com/Kielx/fullstackopen-part3">
-    <img src="build/logo192.png" alt="Logo" width="80" height="80">
     <img src="https://simpleicons.org/icons/node-dot-js.svg" alt="Logo" width="80" height="80">
-    
+    <img src="build/logo192.png" alt="Logo" width="80" height="80">      
   </a>
 
   <h3 align="center"> Fullstackopen Part3 - Phonebook </h3>
 
   <p align="center">
-    Express phonebook with react frontend
+    Express phonebook REST API with React frontend
     <br />
     <br />
     <a href="https://fullstackopen-phonebook-api.herokuapp.com/">View Demo</a>
@@ -35,6 +34,7 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
+* [Usage](#usage)
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
@@ -48,12 +48,13 @@
 
 The project is a part 3 of [Fullstackopen course](https://fullstackopen.com/en/) held by [The University of Helsinki](https://www.helsinki.fi/fi) which  is the oldest and largest science university in Finland, with an international scientific community of 40,000 people.
 
-Part3 summarizes work from previous parts with a Phonebook project. It's a react frontend with express server as backend. Main usage consists of creating a list of people with their phone numbers which can be further modified. RESTful API can be acessed separateley from frontend.
+Part3 summarizes work from previous parts with a Phonebook project. It's a RESTful API for phonebook, with build scripts that allow to integrate React frontend from Part2 of the course. RESTful API can be acessed separateley from frontend.
 
 ### Built With
-* [React](https://reactjs.org/)
 * [Node](https://nodejs.org/en/)
 * [ExpressJS](https://expressjs.com/)
+* [React](https://reactjs.org/)
+
 
   <br />
 <!-- GETTING STARTED -->
@@ -87,7 +88,7 @@ MONGODB_URI = 'mongodb+srv://<username>:<password>@devcluster.qd5ke.mongodb.net/
 MONGODB_URI_DEV = 'mongodb+srv://<username>:<password>@devcluster.qd5ke.mongodb.net/<name>?retryWrites=true&w=majority'
 NODE_ENV ='development'
 ```
-4. If you would like to change frontend or use it with build scripts then clone my FullstackOpen repo 
+4. If you would like to use Frontend from part2 of the course with build scripts then clone my FullstackOpen repo 
 
 * Clone the repo
 ```sh
@@ -100,8 +101,47 @@ git clone git@github.com:Kielx/FullstackOpen.git
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail"
-    
 ```
+
+And use command build:ui or deploy:full with heroku remote set up.
+
+## Usage
+
+To start app in development mode cd into your cloned folder and use `npm run dev` command.
+Server will start and log to the console port on which it is running. 
+
+```JS
+  npm run dev
+  >Server listening at http://localhost:3001
+  >Connected to mongoDB
+```
+    
+Then you can issue common HTTP like GET POST DELETE PATCH with your favorite client like [POSTMAN](https://www.postman.com/) or perhaps [VSCode Rest Client](https://github.com/Huachao/vscode-restclient) or simply by using [Curl](https://curl.haxx.se/) like so: 
+
+Get list of persons:
+```sh
+curl localhost:3001/api/persons
+```
+
+Post a single person:
+```sh
+curl --header "Content-Type: application/json" 
+  --request POST 
+  --data '{"name":"Kamil123","phone":"123 345 645"}' 
+  http://localhost:3001/api/persons
+```
+
+Server should respond with corresponding \_id of a person and data 
+```sh
+{"_id":"5f76d2980210e61510c9004b","name":"Kamil123","phone":"123 345 645"}% 
+```
+
+If an error occurs, a detailed error message should be returned:
+
+```sh
+{"errorMessage":"Username already exists","errorData":[{"_id":"5f76d2980210e61510c9004b","name":"Kamil123","phone":"123 345 645","__v":0}]}% 
+```
+
 ### Tests
 
 * To run tests use:
