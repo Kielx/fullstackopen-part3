@@ -6,7 +6,7 @@ const apiError = class ApiError extends Error {
   }
 };
 
-const errorHandler = (error, req, res, next) => {
+const errorHandler = (error, req, res) => {
   if (error instanceof apiError) {
     res.status("400").json({
       errorMessage: error.message,
