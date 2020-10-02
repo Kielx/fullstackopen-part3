@@ -8,22 +8,16 @@ const apiError = class ApiError extends Error {
 
 const errorHandler = (error, req, res, next) => {
   if (error instanceof apiError) {
-    res
-      .status("400")
-      .json({
-        errorMessage: error.message,
-        errorData: error.data,
-        ...req.body,
-      });
+    res.status("400").json({
+      errorMessage: error.message,
+      errorData: error.data,
+    });
   } else if (error instanceof Error) {
     console.log(error);
-    res
-      .status("500")
-      .json({
-        errorMessage: error.message,
-        errorData: error.data,
-        ...req.body,
-      });
+    res.status("500").json({
+      errorMessage: error.message,
+      errorData: error.data,
+    });
   }
 };
 module.exports = { apiError, errorHandler };
