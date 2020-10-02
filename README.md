@@ -55,7 +55,6 @@ Part3 summarizes work from previous parts with a Phonebook project. It's a RESTf
 * [ExpressJS](https://expressjs.com/)
 * [React](https://reactjs.org/)
 
-
   <br />
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -104,6 +103,8 @@ git clone git@github.com:Kielx/FullstackOpen.git
 ```
 
 And use command build:ui or deploy:full with heroku remote set up.
+
+<br/>
 
 ## Usage
 
